@@ -22,7 +22,8 @@ let player = {
     speed: 4,
     dx: 0,
     dy: 0,
-    jumping: false
+    jumping: false,
+    gravity: 0.5
 };
 
 let playerImage = new Image();
@@ -39,7 +40,7 @@ const keys = {
 document.addEventListener("keydown", (event) => {
     if (event.key === "w" && !player.jumping) {
         player.jumping = true;
-        player.dy = -10;
+        player.dy = -10; // Jump power
     }
     if (event.key === "a") keys.a = true;
     if (event.key === "d") keys.d = true;
@@ -56,17 +57,20 @@ function update() {
 
     // Reset movement
     player.dx = 0;
+    let moving = false; // Track if player is moving
 
     // Move left
     if (keys.a) {
         player.dx = -player.speed;
         bgX += bgSpeed; // Move background right
+        moving = true;
     }
 
     // Move right
     if (keys.d) {
         player.dx = player.speed;
         bgX -= bgSpeed; // Move background left
+        moving = true;
     }
 
     // Prevent background from scrolling infinitely
@@ -76,10 +80,10 @@ function update() {
     // Apply movement
     player.x += player.dx;
 
-    // Jumping physics
+    // Apply gravity and jumping physics
     if (player.jumping) {
         player.y += player.dy;
-        player.dy += 0.5; // Gravity
+        player.dy += player.gravity; // Gravity effect
 
         if (player.y >= 280) { // Ground level
             player.y = 280;
