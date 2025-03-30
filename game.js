@@ -1,3 +1,4 @@
+// Get canvas and context
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -6,12 +7,13 @@ canvas.height = 400;
 
 let gameStarted = false;
 
-// Background
+// Load background
 let bgImage = new Image();
-bgImage.src = "assets/background.png";
+bgImage.src = "assets/background.png"; // Make sure the file exists in the assets folder
 let bgX = 0;
+let bgSpeed = 2;
 
-// Character
+// Load character
 let player = {
     x: 100,
     y: 280,
@@ -24,9 +26,9 @@ let player = {
 };
 
 let playerImage = new Image();
-playerImage.src = "assets/player.png"; // Add a pixel art character sprite
+playerImage.src = "assets/player.png"; // Make sure the file exists in the assets folder
 
-// Controls
+// Key controls
 const keys = {
     w: false,
     a: false,
@@ -35,7 +37,7 @@ const keys = {
     space: false
 };
 
-// Event Listeners
+// Event listeners for key presses
 document.addEventListener("keydown", (event) => {
     if (event.key === "w") keys.w = true;
     if (event.key === "a") keys.a = true;
@@ -55,12 +57,12 @@ document.addEventListener("keyup", (event) => {
     if (event.code === "Space") keys.space = false;
 });
 
-// Game Loop
+// Game update function
 function update() {
     if (!gameStarted) return;
 
-    // Move background
-    bgX -= 2;
+    // Scroll the background
+    bgX -= bgSpeed;
     if (bgX < -canvas.width) bgX = 0;
 
     // Move player
@@ -85,11 +87,11 @@ function update() {
     requestAnimationFrame(update);
 }
 
-// Draw Function
+// Draw everything on canvas
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background
+    // Draw background (scrolling)
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
@@ -97,15 +99,9 @@ function draw() {
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
 }
 
-// Start Game
+// Start game when clicking "Play"
 document.getElementById("startButton").addEventListener("click", () => {
     gameStarted = true;
     document.getElementById("startButton").style.display = "none";
     update();
 });
-let bgImage = new Image();
-bgImage.src = "assets/background.png";
-
-function drawBackground() {
-    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-}
