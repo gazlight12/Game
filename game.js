@@ -2,10 +2,10 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Set fullscreen
+// Set fullscreen with a fixed wider width
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; // Use the full width of the window
+    canvas.height = window.innerHeight; // Use the full height of the window
 }
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas(); // Set initial size
@@ -14,9 +14,9 @@ let gameStarted = false;
 
 // Load background
 let bgImage = new Image();
-bgImage.src = "assets/background.png"; // Make sure the file exists
+bgImage.src = "assets/background.png"; // Ensure the file exists
 let bgX = 0; // Background X position
-let bgSpeed = 0; // Background speed is now controlled by player
+let bgSpeed = 0; // Background speed now controlled by player
 
 // Load character
 let player = {
@@ -33,16 +33,16 @@ let player = {
 };
 
 let playerImage = new Image();
-playerImage.src = "assets/player.png"; // Make sure the file exists
+playerImage.src = "assets/player.png"; // Ensure the file exists
 
 // Key controls
 const keys = { w: false, a: false, d: false };
 
-// Event listeners
+// Event listeners for key presses
 document.addEventListener("keydown", (event) => {
     if (event.key === "w" && !player.jumping) {
         player.jumping = true;
-        player.dy = player.jumpPower;
+        player.dy = player.jumpPower; // Jump power
     }
     if (event.key === "a") keys.a = true;
     if (event.key === "d") keys.d = true;
@@ -59,27 +59,22 @@ function update() {
 
     // Reset movement
     player.dx = 0;
-    let moving = false;
 
     // Move left
     if (keys.a) {
         player.dx = -player.speed;
-        moving = true;
     }
 
     // Move right
     if (keys.d) {
         player.dx = player.speed;
-        moving = true;
     }
 
     // Apply movement
     player.x += player.dx;
 
     // Update background position based on player movement
-    if (moving) {
-        bgX -= player.dx; // Scroll background with player
-    }
+    bgX -= player.dx; // Scroll background with player
 
     // Prevent background from scrolling infinitely
     if (bgX > 0) bgX = 0;
@@ -99,11 +94,11 @@ function update() {
     requestAnimationFrame(update);
 }
 
-// Draw game
+// Draw everything on canvas
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background (moves with player)
+    // Draw background (attached to player)
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
@@ -111,7 +106,7 @@ function draw() {
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
 }
 
-// Start game
+// Start game when clicking "Play"
 document.getElementById("startButton").addEventListener("click", () => {
     gameStarted = true;
     document.getElementById("startButton").style.display = "none";
