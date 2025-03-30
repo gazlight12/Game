@@ -4,9 +4,36 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
-    background: url('assets/background.png') no-repeat center center fixed;
-    background-size: cover;
+    background-color: black;
     font-family: 'Press Start 2P', cursive;
+    color: white;
+    overflow: hidden;
+}
+
+nav {
+    background: black;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #ffcc00;
+    font-size: 14px;
+}
+
+nav ul li a:hover {
     color: white;
 }
 
@@ -15,19 +42,14 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 90vh;
 }
 
-h1 {
-    font-size: 24px;
-    text-shadow: 3px 3px black;
-}
-
-#gameCanvas {
-    width: 600px;
-    height: 400px;
+canvas {
+    background: url('assets/background.png') repeat-x;
     border: 3px solid white;
-    background-color: black;
+    width: 800px;
+    height: 400px;
 }
 
 #startButton {
@@ -37,4 +59,5 @@ h1 {
     background-color: #ffcc00;
     border: none;
     cursor: pointer;
+    display: block;
 }
