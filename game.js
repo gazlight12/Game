@@ -15,8 +15,8 @@ let gameStarted = false;
 // Load background
 let bgImage = new Image();
 bgImage.src = "assets/background.png"; // Make sure the file exists
-let bgX = 0;
-let bgSpeed = 4;
+let bgX = 0; // Background X position
+let bgSpeed = 0; // Background speed is now controlled by player
 
 // Load character
 let player = {
@@ -64,23 +64,26 @@ function update() {
     // Move left
     if (keys.a) {
         player.dx = -player.speed;
-        bgX += bgSpeed;
         moving = true;
     }
 
     // Move right
     if (keys.d) {
         player.dx = player.speed;
-        bgX -= bgSpeed;
         moving = true;
+    }
+
+    // Apply movement
+    player.x += player.dx;
+
+    // Update background position based on player movement
+    if (moving) {
+        bgX -= player.dx; // Scroll background with player
     }
 
     // Prevent background from scrolling infinitely
     if (bgX > 0) bgX = 0;
     if (bgX < -canvas.width) bgX = -canvas.width;
-
-    // Apply movement
-    player.x += player.dx;
 
     // Jumping & Gravity
     if (player.jumping) {
@@ -100,7 +103,7 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background
+    // Draw background (moves with player)
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
