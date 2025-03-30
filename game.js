@@ -2,8 +2,13 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 800;
-canvas.height = 400;
+// Set fullscreen
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas(); // Call once to set initial size
 
 let gameStarted = false;
 
@@ -11,15 +16,15 @@ let gameStarted = false;
 let bgImage = new Image();
 bgImage.src = "assets/background.png"; // Make sure the file exists
 let bgX = 0;
-let bgSpeed = 2; // Background scroll speed
+let bgSpeed = 4; // Background scroll speed
 
 // Load character
 let player = {
     x: 100,
-    y: 280,
+    y: canvas.height - 120, // Position at bottom
     width: 50,
     height: 50,
-    speed: 4,
+    speed: 6,
     dx: 0,
     dy: 0,
     jumping: false,
@@ -40,7 +45,7 @@ const keys = {
 document.addEventListener("keydown", (event) => {
     if (event.key === "w" && !player.jumping) {
         player.jumping = true;
-        player.dy = -10; // Jump power
+        player.dy = -12; // Jump power
     }
     if (event.key === "a") keys.a = true;
     if (event.key === "d") keys.d = true;
@@ -57,7 +62,7 @@ function update() {
 
     // Reset movement
     player.dx = 0;
-    let moving = false; // Track if player is moving
+    let moving = false;
 
     // Move left
     if (keys.a) {
@@ -85,8 +90,8 @@ function update() {
         player.y += player.dy;
         player.dy += player.gravity; // Gravity effect
 
-        if (player.y >= 280) { // Ground level
-            player.y = 280;
+        if (player.y >= canvas.height - 120) { // Ground level
+            player.y = canvas.height - 120;
             player.jumping = false;
         }
     }
