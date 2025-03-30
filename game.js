@@ -9,9 +9,9 @@ let gameStarted = false;
 
 // Load background
 let bgImage = new Image();
-bgImage.src = "assets/background.png"; // Make sure the file exists in the assets folder
+bgImage.src = "assets/background.png"; // Make sure the file exists
 let bgX = 0;
-let bgSpeed = 2;
+let bgSpeed = 2; // Background scroll speed
 
 // Load character
 let player = {
@@ -26,50 +26,54 @@ let player = {
 };
 
 let playerImage = new Image();
-playerImage.src = "assets/player.png"; // Make sure the file exists in the assets folder
+playerImage.src = "assets/player.png"; // Make sure the file exists
 
 // Key controls
 const keys = {
     w: false,
     a: false,
-    s: false,
-    d: false,
-    space: false
+    d: false
 };
 
 // Event listeners for key presses
 document.addEventListener("keydown", (event) => {
-    if (event.key === "w") keys.w = true;
-    if (event.key === "a") keys.a = true;
-    if (event.key === "s") keys.s = true;
-    if (event.key === "d") keys.d = true;
-    if (event.code === "Space" && !player.jumping) {
+    if (event.key === "w" && !player.jumping) {
         player.jumping = true;
         player.dy = -10;
     }
+    if (event.key === "a") keys.a = true;
+    if (event.key === "d") keys.d = true;
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === "w") keys.w = false;
     if (event.key === "a") keys.a = false;
-    if (event.key === "s") keys.s = false;
     if (event.key === "d") keys.d = false;
-    if (event.code === "Space") keys.space = false;
 });
 
 // Game update function
 function update() {
     if (!gameStarted) return;
 
-    // Scroll the background
-    bgX -= bgSpeed;
-    if (bgX < -canvas.width) bgX = 0;
-
-    // Move player
+    // Reset movement
     player.dx = 0;
-    if (keys.a) player.dx = -player.speed;
-    if (keys.d) player.dx = player.speed;
 
+    // Move left
+    if (keys.a) {
+        player.dx = -player.speed;
+        bgX += bgSpeed; // Move background right
+    }
+
+    // Move right
+    if (keys.d) {
+        player.dx = player.speed;
+        bgX -= bgSpeed; // Move background left
+    }
+
+    // Prevent background from scrolling infinitely
+    if (bgX > 0) bgX = 0;
+    if (bgX < -canvas.width) bgX = -canvas.width;
+
+    // Apply movement
     player.x += player.dx;
 
     // Jumping physics
@@ -91,7 +95,7 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background (scrolling)
+    // Draw background (only moves when player moves)
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
