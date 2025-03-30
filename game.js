@@ -103,3 +103,9 @@ document.getElementById("startButton").addEventListener("click", () => {
     document.getElementById("startButton").style.display = "none";
     update();
 });
+let bgImage = new Image();
+bgImage.src = "assets/background.png";
+
+function drawBackground() {
+    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+}
