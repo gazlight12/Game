@@ -1,14 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-body {
+html, body {
     margin: 0;
     padding: 0;
-    text-align: center;
+    overflow: hidden; /* Prevent scrollbars */
     background-color: black;
-    font-family: 'Press Start 2P', cursive;
-    color: white;
-    overflow: hidden;
-}
 
 nav {
     background: black;
@@ -46,10 +42,7 @@ nav ul li a:hover {
 }
 
 canvas {
-    background: url('assets/background.png') repeat-x;
-    border: 3px solid white;
-    width: 800px;
-    height: 400px;
+    display: block; /* Remove extra space */
 }
 
 #startButton {
