@@ -8,7 +8,7 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 }
 window.addEventListener("resize", resizeCanvas);
-resizeCanvas(); // Set initial size
+resizeCanvas(); // Apply fullscreen immediately
 
 let gameStarted = false;
 
